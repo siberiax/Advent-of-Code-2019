@@ -1,4 +1,3 @@
-
 data = open('input.txt', 'r+').read().split()
 
 x = 0
