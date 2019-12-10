@@ -39,7 +39,7 @@ searched = set(start)
 curr  = c_to_p[start]
 total = 0
 
-while end not in orbits[curr]:
+while 1:
     old_total = total
     queue = orbits[curr]
     found = 0

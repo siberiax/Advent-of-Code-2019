@@ -14,7 +14,7 @@ def getParams(op1, op2):
     return d1, d2
 
 data = [int(i) for i in open(sys.argv[1]).read().split(',')]
-input1 = 5
+input = 5
 ptr = 0
 while data[ptr] != 99:
 
@@ -36,7 +36,7 @@ while data[ptr] != 99:
         ptr += 4
 
     elif inst[-1] == "3":
-        data[data[ptr+1]] = input1
+        data[data[ptr+1]] = input
         ptr += 2
 
     elif inst[-1] == "4":
