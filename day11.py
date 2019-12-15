@@ -1,5 +1,5 @@
 import sys
-from collections import defaultdict
+from collections import deque, defaultdict
 
 def getThird(op):
     if op == "2":
@@ -26,7 +26,17 @@ data = defaultdict(int)
 for i, d in enumerate(filedata):
     data[i] = d
 
-input = 2
+directions = deque(('u', 'r', 'd', 'l'))
+panels = defaultdict(int)
+curr = [0,0]
+output_switch = 0
+
+min_x = 0
+min_y = 0
+max_x = 0
+max_y  = 0
+
+input = 1
 ptr = 0
 rel_ptr = 0
 while data[ptr] != 99:
@@ -64,7 +74,38 @@ while data[ptr] != 99:
     elif inst[-1] == "4":
         ds = getParams([op1])
         d1 = ds[0]
-        print(d1)
+
+        if output_switch == 0:
+            output_switch = 1
+            panels[str(curr)] = d1
+        else:
+            output_switch = 0
+            if d1 == 0:
+                directions.rotate()
+            else:
+                directions.rotate(-1)
+
+            if directions[0] == 'u':
+                curr[1] -= 1
+            elif directions[0] == 'l':
+                curr[0] -= 1
+            elif directions[0] == 'd':
+                curr[1] += 1
+            else:
+                curr[0] += 1
+
+            input = panels[str(curr)]
+
+            if curr[0] < min_x:
+                min_x = curr[0]
+            elif curr[0] > max_x:
+                max_x = curr[0]
+
+            if curr[1] < min_y:
+                min_y = curr[1]
+            elif  curr[1] > max_y:
+                max_y = curr[1]
+
         ptr += 2
 
     elif inst[-1] == "5":
@@ -109,3 +150,13 @@ while data[ptr] != 99:
         rel_ptr += d1
 
         ptr += 2
+
+#print(len(panels.keys()))
+
+for y in range(min_y, max_y + 1):
+    for x in range(min_x, max_x + 1):
+        if panels[str([x,y])] == 0:
+            print(' ', end = '')
+        else:
+            print('0', end = '')
+    print()
